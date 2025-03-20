@@ -9,48 +9,49 @@ import styles from "../styles/content.module.css";
 
 export function Content() {
   const [repositories, setRepositories] = useState([]);
-  const [nome, setNome] = useState("");
+  const [name, setName] = useState("");
   const [minibio, setminibio] = useState("");
-  const [citacao, setCitacao] = useState("");
-  const [imagem, setImagem] = useState("");
+  const [citation, setCitation] = useState("");
+  const [image, setImage] = useState("");
   const [success, setSuccess] = useState(false);
   const baseURL = "https://programaria-backend-q807.onrender.com/women";
 
   useEffect(() => {
     async function getData() {
       const response = await Axios.get(baseURL);
+      console.log(response);
       setRepositories(response.data);
     }
     getData();
   }, []);
 
-  function handleInputValueNome(event) {
-    setNome(event.target.value);
+  function handleInputValueName(event) {
+    setName(event.target.value);
   }
 
   function handleInputValueminibio(event) {
     setminibio(event.target.value);
   }
 
-  function handleInputValueImagem(event) {
-    setImagem(event.target.value);
+  function handleInputValueImage(event) {
+    setImage(event.target.value);
   }
 
-  function handleInputValueCitacao(event) {
-    setCitacao(event.target.value);
+  function handleInputValueCitation(event) {
+    setCitation(event.target.value);
   }
 
   function handleCreateMessage(event) {
     event.preventDefault();
 
-    console.log("mensagem enviada", nome, citacao, minibio, imagem);
+    console.log("mensagem enviada", name, citation, minibio, image);
 
     async function sendData() {
       await Axios.post(baseURL, {
-        nome: nome,
-        citacao: citacao,
+        name: name,
+        citation: citation,
         minibio: minibio,
-        imagem: imagem,
+        image: image,
       });
       const response = await Axios.get(baseURL);
       setRepositories(response.data);
@@ -58,10 +59,10 @@ export function Content() {
     sendData();
 
     setSuccess(true);
-    setNome("");
+    setName("");
     setminibio("");
-    setImagem("");
-    setCitacao("");
+    setImage("");
+    setCitation("");
   }
 
   return (
@@ -78,14 +79,14 @@ export function Content() {
               return (
                 <div key={repo._id} className={styles.cardRepo}>
                   <div className={styles.cardImgContainer}>
-                    <img className={styles.cardRepoImage} src={repo.imagem} />
+                    <img className={styles.cardRepoImage} src={repo.image} />
                   </div>
                   <details>
                     <summary className={styles.cardRepoSummary}>
-                      {repo.nome}
+                      {repo.name}
                     </summary>
                     <p className={styles.cardRepoText}>{repo.minibio}</p>
-                    <q className={styles.cardRepoQuote}>{repo.citacao}</q>
+                    <q className={styles.cardRepoQuote}>{repo.citation}</q>
                   </details>
                 </div>
               );
@@ -97,15 +98,15 @@ export function Content() {
         <h2 className={styles.projectsTitle}>Cadastre uma rainha tech:</h2>
         <form className={styles.form} onSubmit={handleCreateMessage}>
           <input
-            onChange={handleInputValueNome}
+            onChange={handleInputValueName}
             placeholder="Digite o nome"
-            value={nome}
+            value={name}
             className={styles.formInput}
           />
           <textarea
-            onChange={handleInputValueImagem}
+            onChange={handleInputValueImage}
             placeholder="Digite o link da imagem"
-            value={imagem}
+            value={image}
             className={styles.formTextArea}
           />
           <textarea
@@ -115,9 +116,9 @@ export function Content() {
             className={styles.formTextArea}
           />
           <textarea
-            onChange={handleInputValueCitacao}
+            onChange={handleInputValueCitation}
             placeholder="Digite a citação"
-            value={citacao}
+            value={citation}
             className={styles.formTextArea}
           />
           <button className={styles.formButton} type="submit">
